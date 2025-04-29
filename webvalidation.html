@@ -229,10 +229,12 @@
    </div>
   </div>
    <div id="gender-error" class="error-message"></div>
-   <div>
-    <label for="terms"><input type="checkbox" id="terms" name="terms" required /> I agree to the <a href="#" style="color:#0A2463">terms and conditions</a></label>
-    </div>
-   <div id="terms-error" class="error-message"></div>
+
+ <div>
+ <input type="checkbox" id="terms" name="terms" required />
+ <label for="terms">I agree to the <a href="#" style="color:#0A2463">terms and conditions</a></label>
+ </div>
+<div id="terms-error" class="error-message"></div>
 
 
  <label for="comments"> Comments:</label>
@@ -256,3 +258,96 @@
         </div>
       </div>
     </main>
+
+
+
+    
+
+    <script>
+
+function checkPasswordMatch() 
+    {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+        const errorElement = document.getElementById('confirm-error');
+        
+        if (password !== confirmPassword && confirmPassword !== '') 
+        {
+          errorElement.innerHTML = 'Passwords do not match';
+          return false;
+        } 
+        else 
+        {
+          errorElement.innerHTML = '';
+          return true;
+        }
+      }
+      
+function validateAge() 
+      {
+        const dobInput = document.getElementById('dob');
+        const ageError = document.getElementById('age-error');
+        if (!dobInput.value) {
+          ageError.innerHTML = '';
+          return true;
+        }
+        
+        const dob = new Date(dobInput.value);
+        const today = new Date();
+        let age = today.getFullYear() - dob.getFullYear();
+        const monthDiff = today.getMonth() - dob.getMonth();
+        
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+          age--;
+        }
+        
+        if (age < 18) {
+          ageError.innerHTML = 'You must be at least 18 years old';
+          return false;
+        } else {
+          ageError.innerHTML = '';
+          return true;
+        }
+      }
+
+function validateGender() 
+      {
+        const genderSelected = document.querySelector('input[name="gender"]:checked');
+        const genderError = document.getElementById('gender-error');
+        
+        if (!genderSelected) 
+        {
+          genderError.innerHTML = 'Please select a gender';
+          return false;
+        } else {
+          genderError.innerHTML = '';
+          return true;
+        }
+      }
+
+function validateTerms()
+       {
+        const termsChecked = document.getElementById('terms').checked;
+        const termsError = document.getElementById('terms-error');
+        
+        if (!termsChecked) {
+          termsError.innerHTML = 'You must agree to the terms and conditions';
+          return false;
+        } else {
+          termsError.innerHTML = '';
+          return true;
+        }
+      }
+      
+      function validateForm()
+      {
+        const isPasswordValid = checkPasswordMatch();
+        const isAgeValid = validateAge();
+        const isGenderValid = validateGender();
+        const isTermsValid = validateTerms();
+        
+        return isPasswordValid && isAgeValid && isGenderValid && isTermsValid;
+      }
+    </script>
+  </body>
+</html>
